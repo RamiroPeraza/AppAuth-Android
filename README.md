@@ -189,7 +189,7 @@ data class accept the mandatory parameters via the builder constructor:
 AuthorizationRequest.Builder authRequestBuilder =
     new AuthorizationRequest.Builder(
         serviceConfig, // the authorization service configuration
-        MY_CLIENT_ID, // the client ID, typically pre-registered and static
+       , // the client ID, typically pre-registered and static
         ResponseTypeValues.CODE, // the response_type value: we want a code
         MY_REDIRECT_URI); // the redirect URI to which the auth response is sent
 ```
