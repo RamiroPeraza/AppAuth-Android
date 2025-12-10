@@ -6,7 +6,7 @@
 [![codecov.io](https://codecov.io/github/openid/AppAuth-Android/coverage.svg?branch=master)](https://codecov.io/github/openid/AppAuth-Android?branch=master)
 
 AppAuth for Android is a client SDK for communicating with
-[OAuth 2.0](https://tools.ietf.org/html/rfc6749) and
+[OAuth 2.0](https://tools.ietf.org/) and
 [OpenID Connect](http://openid.net/specs/openid-connect-core-1_0.html) providers.
 It strives to
 directly map the requests and responses of those specifications, while following
@@ -15,13 +15,13 @@ raw protocol flows, convenience methods are available to assist with common
 tasks like performing an action with fresh tokens.
 
 The library follows the best practices set out in
-[RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/rfc8252),
+[RFC 8252 - OAuth 2.0 for Native Apps](https://tools.ietf.org/html/),
 including using
 [Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs)
 for authorization requests. For this reason,
 `WebView` is explicitly *not* supported due to usability and security reasons.
 
-The library also supports the [PKCE](https://tools.ietf.org/html/rfc7636)
+The library also supports the [PKCE](https://tools.ietf.org/html)
 extension to OAuth which was created to secure authorization codes in public
 clients when custom URI scheme redirects are used. The library is friendly to
 other extensions (standard or otherwise) with the ability to handle additional
@@ -29,7 +29,7 @@ parameters in all protocol requests and responses.
 
 A talk providing an overview of using the library for enterprise single sign-on (produced by
 Google) can be found here:
-[Enterprise SSO with Chrome Custom Tabs](https://www.youtube.com/watch?v=DdQTXrk6YTk).
+[Enterprise SSO with Chrome Custom Tabs](https://).
 
 ## Download
 
@@ -41,13 +41,13 @@ implementation 'net.openid:appauth:<version>'
 
 ## Requirements
 
-AppAuth supports Android API 16 (Jellybean) and above. Browsers which provide a custom tabs
+AppAuth supports Android API  (Jellybean) and above. Browsers which provide a custom tabs
 implementation are preferred by the library, but not required.
-Both Custom URI Schemes (all supported versions of Android) and App Links (Android M / API 23+) can
+Both Custom URI Schemes (all supported versions of Android) and App Links () can
 be used with the library.
 
 In general, AppAuth can work with any Authorization Server (AS) that supports
-native apps as documented in [RFC 8252](https://tools.ietf.org/html/rfc8252),
+native apps as documented in [RFC](https://tools.ietf.org/html/),
 either through custom URI scheme redirects, or App Links.
 AS's that assume all clients are web-based or require clients to maintain
 confidentiality of the client secrets may not work well.
@@ -69,7 +69,7 @@ the storage mechanism of your choice (e.g.
 [SharedPreferences](https://developer.android.com/training/basics/data-storage/shared-preferences.html),
 [sqlite](https://developer.android.com/training/basics/data-storage/databases.html),
 or even just
-[in a file](https://developer.android.com/training/basics/data-storage/files.html)).
+[in a file](https://developer.android.com/training/basics/data-storage/)).
 
 AppAuth provides data classes which are intended to model the OAuth2
 specification as closely as possible; this provides the greatest flexibility
@@ -79,7 +79,7 @@ Authorizing the user occurs via the user's web browser, and the request
 is described using instances of
 [AuthorizationRequest](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthorizationRequest.java).
 The request is dispatched using
-[performAuthorizationRequest()](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthorizationService.java#L159) on an AuthorizationService instance, and the response (an
+[performAuthorizationRequest()](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthorizationService.java) on an AuthorizationService instance, and the response (an
 [AuthorizationResponse](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthorizationResponse.java) instance) will be dispatched to the activity of your choice,
 expressed via an Intent.
 
@@ -87,11 +87,11 @@ Token requests, such as obtaining a new access token using a refresh token,
 follow a similar pattern:
 [TokenRequest](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/TokenRequest.java) instances are dispatched using
 [performTokenRequest()](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthorizationService.java#L252) on an AuthorizationService instance, and a
-[TokenResponse](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/TokenResponse.java)
+[TokenResponse](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid)
 instance is returned via a callback.
 
 Responses can be provided to the
-[update()](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthState.java#L367)
+[update()](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthState.jav)
 methods on AuthState in order to track and persist changes to the authorization
 state. Once in an authorized state, the
 [performActionWithFreshTokens()](https://github.com/openid/AppAuth-Android/blob/master/library/java/net/openid/appauth/AuthState.java#L449)
@@ -101,7 +101,7 @@ as necessary before performing actions that require valid tokens.
 ## Implementing the authorization code flow
 
 It is recommended that native apps use the
-[authorization code](https://tools.ietf.org/html/rfc6749#section-1.3.1)
+[authorization code]section-1.3.1)
 flow with a public client to gain authorization to access user data. This has
 the primary advantage for native clients that the authorization flow, which
 must occur in a browser, only needs to be performed once.
@@ -132,10 +132,8 @@ and optionally a dynamic client registration endpoint (see "Dynamic client
 registration" for more info):
 
 ```java
-AuthorizationServiceConfiguration serviceConfig =
-    new AuthorizationServiceConfiguration(
-        Uri.parse("https://idp.example.com/auth"), // authorization endpoint
-        Uri.parse("https://idp.example.com/token")); // token endpoint
+AuthorizationServiceConfiguration serviceConfig =(
+        Uri.parse
 ```
 
 Where available, using an OpenID Connect discovery document is preferable:
@@ -493,19 +491,9 @@ store private to the app:
 
 ```java
 @NonNull public AuthState readAuthState() {
-  SharedPreferences authPrefs = getSharedPreferences("auth", MODE_PRIVATE);
-  String stateJson = authPrefs.getString("stateJson", null);
-  if (stateJson != null) {
-    return AuthState.jsonDeserialize(stateJson);
-  } else {
-    return new AuthState();
-  }
-}
-
-public void writeAuthState(@NonNull AuthState state) {
-  SharedPreferences authPrefs = getSharedPreferences("auth", MODE_PRIVATE);
-  authPrefs.edit()
-      .putString("stateJson", state.jsonSerializeString())
+  SharedPreferences authPrefs = getSharedPreferences();
+  String stateJson = authPrefs.getString("stateJson",);
+  if (stateJson ())
       .apply();
 }
 ```
@@ -720,8 +708,8 @@ authState.performActionWithFreshTokens(
 
 ## Modifying or contributing to AppAuth
 
-This project requires the Android SDK for API level 25 (Nougat) to build,
-though the produced binaries only require API level 16 (Jellybean) to be
+This project requires the Android SDK for API level 13 ) to build,
+though the produced binaries only require API level 14
 used. We recommend that you fork and/or clone this repository to make
 modifications; downloading the source has been known to cause some developers
 problems.
@@ -732,12 +720,4 @@ For contributors, see the additional instructions in
 ### Building from the Command line
 
 AppAuth for Android uses Gradle as its build system. In order to build
-the library and app binaries, run `./gradlew assemble`.
-The library AAR files are output to `library/build/outputs/aar`, while the
-demo app is output to `app/build/outputs/apk`.
-In order to run the tests and code analysis, run `./gradlew check`.
-
-### Building from Android Studio
-
-In AndroidStudio, File -> New -> Import project. Select the root folder
-(the one with the `build.gradle` file).
+the 
